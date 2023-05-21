@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import './Header.css';
-import OlxLogo from '../../assets/OlxLogo';
-import Search from '../../assets/Search';
-import Arrow from '../../assets/Arrow';
-import SellButton from '../../assets/SellButton';
-import SellButtonPlus from '../../assets/SellButtonPlus';
-import { signOut } from 'firebase/auth'
-import { Authcontext, firebaseContext } from '../../store/context';
-import { useHistory } from 'react-router-dom';
+import "./Header.css";
+import OlxLogo from "../../assets/OlxLogo";
+import Search from "../../assets/Search";
+import Arrow from "../../assets/Arrow";
+import SellButton from "../../assets/SellButton";
+import SellButtonPlus from "../../assets/SellButtonPlus";
+import { signOut } from "firebase/auth";
+import { Authcontext, firebaseContext } from "../../store/context";
+import { useHistory } from "react-router-dom";
 function Header() {
-  const {user}=useContext(Authcontext)
-  const {auth}=useContext(firebaseContext)
-  const history=useHistory()
+  const { user } = useContext(Authcontext);
+  const { auth } = useContext(firebaseContext);
+  const history = useHistory();
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
@@ -40,24 +40,44 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>{user ? `${user.displayName}` : <span onClick={()=>{
-              history.push('/login')
-            }}>Login</span>}</span>
+          <span>
+            {user ? (
+              `${user.displayName}`
+            ) : (
+              <span
+                onClick={() => {
+                  history.push("/login");
+                }}
+              >
+                Login
+              </span>
+            )}
+          </span>
           <hr />
         </div>
-          {user?<span onClick={()=>
-            {
-              signOut(auth)
-              history.push('/login')
-
-            }}>Logout</span>:''}  
+        {user ? (
+          <span
+            onClick={() => {
+              signOut(auth);
+              history.push("/login");
+            }}
+          >
+            Logout
+          </span>
+        ) : (
+          ""
+        )}
         <div className="sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>
-            <span onClick={()=>{
-              user? history.push('/Create'):history.push('/login')
-            }}>SELL</span>
+            <span
+              onClick={() => {
+                user ? history.push("/Create") : history.push("/login");
+              }}
+            >
+              SELL
+            </span>
           </div>
         </div>
       </div>

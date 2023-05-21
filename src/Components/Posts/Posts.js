@@ -1,31 +1,28 @@
+import React, { useContext, useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore/lite";
 
-import React, { useContext, useEffect, useState } from 'react';
-import {   collection, getDocs } from 'firebase/firestore/lite';
-
-import Heart from '../../assets/Heart';
-import { firebaseContext } from '../../store/context';
-import './Post.css';
-import { postContext } from '../../store/postContext';
-import { useHistory } from 'react-router-dom';
+import Heart from "../../assets/Heart";
+import { firebaseContext } from "../../store/context";
+import "./Post.css";
+import { postContext } from "../../store/postContext";
+import { useHistory } from "react-router-dom";
 
 function Posts() {
-  
-const {db}= useContext(firebaseContext)
-const Collection = collection(db, 'product');
-const [product,setProduct]=useState([])
-const {setPost}=useContext(postContext)
-const history=useHistory()
-useEffect(()=>{
-  async function fetchData() {
-
-    const Snapshot = await getDocs(Collection);
-    const List = Snapshot.docs.map(doc => {
-      return{ ...doc.data(),id:doc.id}
-    })
-    setProduct(List)
-  }
-  fetchData();
-} )
+  const { db } = useContext(firebaseContext);
+  const Collection = collection(db, "product");
+  const [product, setProduct] = useState([]);
+  const { setPost } = useContext(postContext);
+  const history = useHistory();
+  useEffect(() => {
+    async function fetchData() {
+      const Snapshot = await getDocs(Collection);
+      const List = Snapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      setProduct(List);
+    }
+    fetchData();
+  });
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -34,30 +31,30 @@ useEffect(()=>{
           <span>View more</span>
         </div>
         <div className="cards">
-          { product.map(pro=>(
+          {product.map((pro) => (
             <div
-            className="card" onClick={()=>{
-                setPost(pro)
-                history.push('/view-post')
-            }}>
-            <div className="favorite">
-              <Heart></Heart>
+              className="card"
+              onClick={() => {
+                setPost(pro);
+                history.push("/view-post");
+              }}
+            >
+              <div className="favorite">
+                <Heart></Heart>
+              </div>
+              <div className="image">
+                <img src={pro.url} alt="Img" />
+              </div>
+              <div className="content">
+                <p className="rate">&#x20B9; {pro.price}</p>
+                <span className="kilometer">{pro.name}</span>
+                <p className="name"> {pro.category}</p>
+              </div>
+              <div className="date">
+                <span>{pro.createdAt}</span>
+              </div>
             </div>
-            <div className="image">
-              <img src={pro.url}alt="Img" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; {pro.price}</p>
-              <span className="kilometer">{pro.name}</span>
-              <p className="name"> {pro.category}</p>
-            </div>
-            <div className="date">
-              <span>{pro.createdAt}</span>
-            </div>
-          </div>
-           ))} 
-
-          
+          ))}
         </div>
       </div>
       <div className="recommendations">

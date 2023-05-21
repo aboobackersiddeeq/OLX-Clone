@@ -1,30 +1,28 @@
-import React, { useState } from 'react';
-import Logo from '../../olx-logo.png';
-import './Login.css';
+import React, { useState } from "react";
+import Logo from "../../olx-logo.png";
+import "./Login.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 function Login() {
-  const history= useHistory()
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
-  const handleLogin=(e)=>{
-    e.preventDefault()
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = (e) => {
+    e.preventDefault();
     const auth = getAuth();
-signInWithEmailAndPassword(auth, email, password)
-  .then(() => {
-      
-     history.push('/')
-    })
-  // })
-  .catch((error) => {
-    alert(error.message)
-  });
-    
-  }
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        history.push("/");
+      })
+      // })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
   return (
     <div>
       <div className="loginParentDiv">
-        <img width="200px" height="200px" src={Logo} alt='Logo'/>
+        <img width="200px" height="200px" src={Logo} alt="Logo" />
         <form onSubmit={handleLogin}>
           <label htmlFor="fname">Email</label>
           <br />
@@ -33,7 +31,7 @@ signInWithEmailAndPassword(auth, email, password)
             type="email"
             id="fname"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             name="email"
             defaultValue="John"
           />
@@ -45,7 +43,7 @@ signInWithEmailAndPassword(auth, email, password)
             type="password"
             id="lname"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             defaultValue="Doe"
           />
@@ -54,7 +52,7 @@ signInWithEmailAndPassword(auth, email, password)
           <button>Login</button>
         </form>
 
-        <p onClick={()=>history.push('/signup')}>Signup</p>
+        <p onClick={() => history.push("/signup")}>Signup</p>
       </div>
     </div>
   );
